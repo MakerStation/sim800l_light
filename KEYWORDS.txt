@@ -1,0 +1,7 @@
+#######################################
+# Syntax Coloring Map For sim800l_light
+#######################################
+
+sim800l_light	KEYWORD1
+
+begin	KEYWORD2
