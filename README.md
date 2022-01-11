@@ -52,8 +52,8 @@ iRandomSeed         //Integer called “Random Seed”
 | int | i | 2 byte (16-bit) on Uno (and other ATMEGA based bord) <br> 4 byte (32-bit) on the Arduino Due and SAMD based board| 2-byte: from -32768 to 32767 <br>4-byte: from -2,147,483,648 to 2,147,483,647 |
 | long | l | 4 byte | from -2,147,483,648 to 2,147,483,647 |
 | short | sh | 2 byte | from -32768 to 32767 |
-| size_t |
-| string |
+| size_t | sz | byte as the object | byte as the object | see object |
+| string | s | 
 | String() |
 | unsigned char |
 | unsigned int |
