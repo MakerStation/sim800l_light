@@ -1,0 +1,4 @@
+https://forum.arduino.cc/t/string-vs-array-memory-usage/328252/3
+
+https://www.youtube.com/watch?v=aOmDrQNUJw0
+
