@@ -40,7 +40,7 @@ void sim800l_light::_setMessageFormat(int format)
  * 
  * @param speed Speed of serial (max 19200 to avoid packet loss)
  */
-void sim800l_light::begin(int speed)
+void sim800l_light::begin(long speed)
 {
 	if (speed > 19200)
 	{
