@@ -19,9 +19,10 @@ SoftwareSerial SIM(RX_PIN, TX_PIN);
  * @brief Set if display or not the result code of any command
  *
  */
-void sim800l_light::_setResultCode()
+void sim800l_light::_enableResultCode()
 {
-	SIM.println("ATQ1");
+	SIM.println("ATQ0");
+	// qui ci va il controllo che sulla seriale ritorni "OK"
 }
 
 /**
