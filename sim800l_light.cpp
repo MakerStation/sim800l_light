@@ -135,6 +135,20 @@ bool sim800l_light::_tryToConnect(SoftwareSerial &serobj)
 }
 
 /**
+ * @brief 
+ * 
+ * @param commandToSearch 
+ * @param serobj 
+ * @param changeMe 
+ * @return string 
+ */
+string _readSMS(cmdType commandToSearch, SoftwareSerial &serobj, bool changeMe);	//TODO richiamata da checkMessageForCommand
+{
+
+}
+
+
+/**
  * @brief Initialization of SIM800 Serial comm and first mandatory setup
  *
  * @param speed Speed of serial (max 19200 to avoid packet loss)
@@ -189,4 +203,66 @@ void sim800l_light::begin(long speed, SoftwareSerial &serobj)
 #if (LED)
 	pinMode(OUTPUT, LED_PIN);
 #endif
+}
+
+/**
+ * @brief Get the Message Count By Type object
+ * 
+ * @param stat 
+ * @param changeMe 
+ * @param serobj 
+ * @return int 
+ */
+int getMessageCountByType(messageStatus stat, bool changeMe, SoftwareSerial &serobj);	// TODO
+{
+
+}
+
+/**
+ * @brief 
+ * 
+ * @param delType 
+ * @param serobj 
+ * @return true 
+ * @return false 
+ */
+bool deleteMessage(deleteType delType, SoftwareSerial &serobj);		// TODO
+{
+
+}
+
+/**
+ * @brief 
+ * 
+ * @param command 
+ * @param serobj 
+ */
+void checkMessageForCommand(cmdType command, SoftwareSerial & serobj);	// TODO
+{
+
+}
+
+/**
+ * @brief 
+ * 
+ * @param dest 
+ * @param text 
+ * @param Serobj 
+ * @return true 
+ * @return false 
+ */
+bool sendSMS(string dest, string text, SoftwareSerial &Serobj);		//TODO - Ricordarsi il CTRL+Z alla fine (ASCII 26) altrimenti il messaggio non va via
+{
+
+}
+
+/**
+ * @brief 
+ * 
+ * @param serobj 
+ * @return int 
+ */
+int checkForMessage(SoftwareSerial &serobj);	// TODO - controlla il +CMTI sulla seriale
+{
+
 }
