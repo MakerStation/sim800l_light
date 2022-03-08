@@ -9,12 +9,77 @@
  *
  */
 
+ // #TODO    valutare di creare una unica funzione per gestire comandi semplici (vedi "_enableResultCode" e "_setMessageFormat")
+
 #include "Arduino.h"
 // #include <SoftwareSerial.h>	// passing the serial object to function, the serial definition must be done in main code, so #include is not needed
 #include "sim800l_light.h"
 #include <avr/sleep.h>
 
 // SoftwareSerial SIM(RX_PIN, TX_PIN);	// passing the serial object to function, the serial definition must be done in main code
+
+/**
+ * @brief Initialization of SIM800 Serial comm and first mandatory setup
+ *
+ * @param speed Speed of serial (max 19200 to avoid packet loss)
+ */
+void sim800l_light::begin(long speed, SoftwareSerial &serobj)
+{
+	switch (speed)
+	{
+	case 300:
+		speed = 300;
+		break;
+	case 600:
+		speed = 600;
+		break;
+	case 1200:
+		speed = 1200;
+		break;
+	case 2400:
+		speed = 2400;
+		break;
+	case 4800:
+		speed = 4800;
+		break;
+	case 9600:
+		speed = 9600;
+		break;
+	case 19200:
+		speed = 19200;
+		break;
+	default:
+		speed = 19200;
+		bPrintSerialWarning = true;
+		break;
+	}
+
+	serobj.begin(speed);
+	while (!serobj)
+	{
+		;
+	}
+	// qui ci andrebbe funzione di controllo se entro 10 sec il modulo gsm ha risposto oppure no.
+	// si potrebbe usare la lib elapsedMillis https://github.com/pfeerick/elapsedMillis
+	// perchè se dopo 10 sec il moulo gsm non risponde occorre fargli un reset hw con il suo pin
+	// oppure fargli un power cycle.
+	// però mettere un delay() fa schifo perchè il programma si blocca per il tempo della delay()
+	// e non è bellissimo....
+	if (_tryToConnect(serobj))
+	{
+		_buffer.reserve(255); // reserve memory to prevent intern fragmention
+	}
+
+/**
+ * Il seguente pezzo di codice servirebbe per avere un output visivo dell'esito della begin usando il built-in led.
+ * Valutare se togliere o no. Se no ragionare se metterlo dinamico con la possibilità di definire altri pin
+ * oppure se mantenere quello. !!ATTENZIONE!! verificare compatibilità con le varie schede arduino.
+ * 
+ */
+	#if (LED)
+		pinMode(OUTPUT, LED_PIN);
+	#endif
+}
 
 /**
  * @brief Enable the showing of result code of any command
@@ -148,62 +213,7 @@ string _readSMS(cmdType commandToSearch, SoftwareSerial &serobj, bool changeMe);
 }
 
 
-/**
- * @brief Initialization of SIM800 Serial comm and first mandatory setup
- *
- * @param speed Speed of serial (max 19200 to avoid packet loss)
- */
-void sim800l_light::begin(long speed, SoftwareSerial &serobj)
-{
-	switch (speed)
-	{
-	case 300:
-		speed = 300;
-		break;
-	case 600:
-		speed = 600;
-		break;
-	case 1200:
-		speed = 1200;
-		break;
-	case 2400:
-		speed = 2400;
-		break;
-	case 4800:
-		speed = 4800;
-		break;
-	case 9600:
-		speed = 9600;
-		break;
-	case 19200:
-		speed = 19200;
-		break;
-	default:
-		speed = 19200;
-		bPrintSerialWarning = true;
-		break;
-	}
 
-	serobj.begin(speed);
-	while (!serobj)
-	{
-		;
-	}
-	// qui ci andrebbe funzione di controllo se entro 10 sec il modulo gsm ha risposto oppure no.
-	// si potrebbe usare la lib elapsedMillis https://github.com/pfeerick/elapsedMillis
-	// perchè se dopo 10 sec il moulo gsm non risponde occorre fargli un reset hw con il suo pin
-	// oppure fargli un power cycle.
-	// però mettere un delay() fa schifo perchè il programma si blocca per il tempo della delay()
-	// e non è bellissimo....
-	if (_tryToConnect(serobj))
-	{
-		_buffer.reserve(255); // reserve memory to prevent intern fragmention
-	}
-¯
-#if (LED)
-	pinMode(OUTPUT, LED_PIN);
-#endif
-}
 
 /**
  * @brief Get the Message Count By Type object
